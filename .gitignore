@@ -1,0 +1,15 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.idea/
+.vscode/
+*.egg-info/
+tests/_*.xlsx
+tests/_*.json
+tests/_*.log
+tests/screenshots/
+backup_*/

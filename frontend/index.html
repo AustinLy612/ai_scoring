@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>日记自我反思 AI 编码评分工具</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <h1>日记自我反思 AI 编码评分</h1>
+      <span id="modelInfo" class="muted">加载配置中…</span>
+    </div>
+    <div class="topbar-actions">
+      <label class="btn">
+        导入文件
+        <input type="file" id="fileInput" multiple accept=".txt,.csv,.xlsx,.xlsm" hidden />
+      </label>
+      <button class="btn" id="pasteBtn">粘贴日记</button>
+      <button class="btn primary" id="processBtn">开始处理</button>
+      <label class="check"><input type="checkbox" id="forceBox" /> 重跑已完成</label>
+      <button class="btn" id="exportBtn">导出 Excel</button>
+      <button class="btn danger" id="clearBtn">清空</button>
+    </div>
+  </header>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <main class="layout">
+    <aside class="panel diary-list">
+      <div class="panel-head">
+        <h2>日记列表</h2>
+        <span id="listCount" class="muted"></span>
+      </div>
+      <ul id="diaryList"></ul>
+      <p class="hint">
+        支持 .txt（一篇一个文件，文件名作为日记ID）、.csv/.xlsx（一行一篇，需有 <code>text</code> 列，可选 <code>id</code> 列，其余列会带入导出）。
+      </p>
+    </aside>
+
+    <section class="panel diary-text">
+      <div class="panel-head">
+        <h2 id="diaryTitle">日记全文</h2>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div id="warnings" class="warnings hidden"></div>
+      <div id="diaryBody" class="diary-body">从左侧选择一篇日记查看标注结果。</div>
+      <div id="selectionBar" class="selection-bar hidden">
+        <span id="selectionInfo"></span>
+        <label>步骤
+          <select id="newStep"></select>
+        </label>
+        <button class="btn primary" id="addSegmentBtn">新增片段</button>
+      </div>
+    </section>
+
+    <section class="panel segment-panel">
+      <div class="panel-head">
+        <h2>编码结果</h2>
+        <div>
+          <button class="btn" id="revertBtn">放弃修改</button>
+          <button class="btn primary" id="saveBtn">保存修正</button>
+        </div>
+      </div>
+      <div class="review-scroll">
+        <section class="score-block">
+          <div class="block-head">
+            <h3>步骤深度评分 <span class="muted">（0 没有描述 / 1 有一些描述 / 2 明确且深度描述）</span></h3>
+            <span id="totalDepth" class="total-depth"></span>
+          </div>
+          <div id="scoreTable" class="score-table">未选择日记。</div>
+        </section>
+        <section class="segment-block">
+          <div class="block-head">
+            <h3>标注片段</h3>
+          </div>
+          <div id="segmentTable" class="segment-table"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="pasteModal" class="modal hidden">
+    <div class="modal-box">
+      <h3>粘贴一篇日记</h3>
+      <label>日记ID（可留空自动编号）
+        <input type="text" id="pasteId" placeholder="如 P001-day3" />
+      </label>
+      <label>日记正文
+        <textarea id="pasteText" rows="14" placeholder="在此粘贴日记全文…"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="btn" id="pasteCancel">取消</button>
+        <button class="btn primary" id="pasteConfirm">添加</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
