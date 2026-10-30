@@ -16,13 +16,22 @@ pip install -r requirements.txt
 cp .env.example .env    # Windows: copy .env.example .env
 ```
 
-编辑 `.env`，至少填写 `LLM_SSH_USER`（SSH 用户名）。密码默认已按实验室机器填写；主机默认为 `10.200.20.244`。
+编辑 `.env`。实验室机器 `10.200.20.244` 的 SSH 用户是 `root01`（本机 `~/.ssh/config` 里已经写过，所以平时登录只输入 IP 和密码）。密码、主机、Qwen 接口默认已按这台机器填写。
+
+Qwen 用 vLLM 开在远程 `127.0.0.1:8000`。若评分时报接口连不上，先在服务器上启动模型，例如：
+
+```bash
+python -m vllm.entrypoints.openai.api_server \
+  --model "/home/root01/Public/privacy/llm_models/Qwen3.5-9B-GPTQ-4bit" \
+  --served-model-name "Qwen3.5-9B-GPTQ-4bit" \
+  --host 0.0.0.0 --port 8000
+```
 
 | 变量 | 说明 |
 | --- | --- |
 | `LLM_SSH_HOST` | SSH 主机，默认 `10.200.20.244` |
 | `LLM_SSH_PORT` | SSH 端口，默认 `22` |
-| `LLM_SSH_USER` | SSH 用户名（必填） |
+| `LLM_SSH_USER` | SSH 用户名，默认 `root01` |
 | `LLM_SSH_PASSWORD` | SSH 密码 |
 | `QWEN_API_BASE` | 远程本机 Qwen 接口，如 `http://127.0.0.1:8000/v1`；留空则自动探测 |
 | `QWEN_MODEL` | 模型名；留空则优先选择名称含 qwen 的模型 |

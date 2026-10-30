@@ -21,15 +21,15 @@ class Settings(BaseSettings):
     # SSH 登录实验室机器，再访问其上的本地 Qwen 服务
     llm_ssh_host: str = "10.200.20.244"
     llm_ssh_port: int = 22
-    llm_ssh_user: str = ""
+    llm_ssh_user: str = "root01"
     llm_ssh_password: str = ""
 
     # 远程机器上 Qwen 的 OpenAI 兼容接口。留空则自动探测常见端口。
     qwen_api_base: str = Field(
-        default="",
+        default="http://127.0.0.1:8000/v1",
         validation_alias=AliasChoices("QWEN_API_BASE", "QWEN_BASE_URL", "qwen_api_base"),
     )
-    qwen_model: str = ""
+    qwen_model: str = "Qwen3.5-9B-GPTQ-4bit"
     qwen_api_key: str = ""
 
     # 阶段二评分 prompt 版本，见 prompts.STAGE2_PROMPTS
