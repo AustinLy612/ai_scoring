@@ -9,7 +9,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Windows 用 `copy .env.example .env`。`.env` 里已填好这台机器的 SSH（用户 `root01`）和 Qwen 地址，一般不用改。
+Windows 用 `copy .env.example .env`。复制后在 `.env` 里填写 `LLM_SSH_PASSWORD`（不要把密码提交到 git）。主机和用户默认是 `10.200.20.244` / `root01`。
 
 评分前先在服务器上把 vLLM 开起来：
 
